@@ -13,8 +13,98 @@ datasource db {
 }
 
 
-model user {
-  id        Int      @id @default(autoincrement())
-  name      String
+enum UserRole {
+  ADMIN
+  DOCTOR
+  PATIENT
+}
 
+enum UserStatus{
+  ACTIVE
+  INACTIVE
+  DELETED
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+
+model User {
+  id        String       @id @default(uuid())
+  email String @unique
+  password String
+  role UserRole @default(PATIENT)
+  needPasswordChange Boolean @default(true)
+  status UserStatus @default(ACTIVE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // relations
+  admin Admin?
+  patient Patient?
+  doctor Doctor?
+
+  @@map("users")
+}
+
+
+model Admin{
+  id String @id @default(uuid())
+  name String
+  email String @unique
+  profilePhoto String?
+  contactNumber String
+  isDeleted Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user User @relation(fields: [email], references: [email])
+
+  @@map("admins"  )
+}
+
+
+model Doctor{
+  id String @id @default(uuid())
+  name String
+  email String @unique
+  profilePhoto String?
+  contactNumber String
+  address String?
+  registrationNumber String
+  experienceYears Int @default(0)
+  gender Gender
+  appintmentFee Int
+  qualification String
+  cureentWorkingPlcae String
+  designation String
+  specialization String?
+
+  user User @relation(fields: [email], references: [email])
+  
+  isDeleted Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("doctors"  )
+}
+
+
+model Patient{
+  id String @id @default(uuid())
+  name String
+  email String @unique
+  profilePhoto String?
+  contactNumber String
+  address String?
+
+  user User @relation(fields: [email], references: [email])
+
+  isDeleted Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("patients")
 }
