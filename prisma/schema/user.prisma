@@ -1,37 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
-generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
-}
-
-datasource db {
-  provider = "postgresql"
-}
-
-
-enum UserRole {
-  ADMIN
-  DOCTOR
-  PATIENT
-}
-
-enum UserStatus{
-  ACTIVE
-  INACTIVE
-  DELETED
-}
-
-enum Gender {
-  MALE
-  FEMALE
-  OTHER
-}
-
-
 model User {
   id        String       @id @default(uuid())
   email String @unique
@@ -50,7 +16,6 @@ model User {
   @@map("users")
 }
 
-
 model Admin{
   id String @id @default(uuid())
   name String
@@ -64,7 +29,6 @@ model Admin{
 
   @@map("admins"  )
 }
-
 
 model Doctor{
   id String @id @default(uuid())
@@ -90,7 +54,6 @@ model Doctor{
 
   @@map("doctors"  )
 }
-
 
 model Patient{
   id String @id @default(uuid())
