@@ -6,6 +6,8 @@ import { userValidation } from './user.validation';
 
 const router = express.Router();
 
+router.get('/', userController.getAllUsers);
+
 router.post(
   '/create-patient',
   multerUpload.single('profilePhoto'),

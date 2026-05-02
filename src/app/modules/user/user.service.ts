@@ -1,6 +1,8 @@
 import prisma from '../../../shared/prisma';
 import { bcryptHelper } from '../../../helpers/bcrypt';
 import { cloudinaryHelper } from '../../../helpers/cloudinary';
+import { Prisma } from '@prisma/client';
+import { buildWhereConditions } from '../../../shared/buildWhereConditions';
 
 const createPatientIntoDB = async (
   file: Express.Multer.File | undefined,
@@ -54,6 +56,7 @@ const createPatientIntoDB = async (
 
   return result;
 };
+
 
 const createDoctorIntoDB = async (
   file: Express.Multer.File | undefined,
@@ -153,8 +156,60 @@ const createAdminIntoDB = async (
   return result;
 };
 
+
+
+const getAllUsersFromDB = async (params: any, options: any) => {
+  const { page, limit, skip, sortBy, sortOrder } = options;
+  const { searchTerm, ...filterData } = params;
+
+  // Define all the fields we want to search against
+  const searchableFields = ['email', 'admin.name', 'doctor.name', 'patient.name'];
+
+  // Use the reusable buildWhereConditions helper
+  const whereConditions = buildWhereConditions(
+    searchTerm,
+    searchableFields,
+    filterData
+  ) as Prisma.UserWhereInput;
+
+  const result = await prisma.user.findMany({
+    where: whereConditions,
+    skip,
+    take: limit,
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
+    select: {
+      id: true,
+      email: true,
+      role: true,
+      needPasswordChange: true,
+      status: true,
+      createdAt: true,
+      updatedAt: true,
+      admin: true,
+      patient: true,
+      doctor: true,
+    },
+  });
+
+  const total = await prisma.user.count({
+    where: whereConditions,
+  });
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
+};
+
 export const userService = {
   createPatientIntoDB,
   createDoctorIntoDB,
   createAdminIntoDB,
+  getAllUsersFromDB,
 };
