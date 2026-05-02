@@ -13,4 +13,18 @@ router.post(
   userController.createPatient
 );
 
+router.post(
+  '/create-doctor',
+  multerUpload.single('profilePhoto'),
+  validateRequest(userValidation.createDoctorValidationSchema),
+  userController.createDoctor
+);
+
+router.post(
+  '/create-admin',
+  multerUpload.single('profilePhoto'),
+  validateRequest(userValidation.createAdminValidationSchema),
+  userController.createAdmin
+);
+
 export const userRouter = router;

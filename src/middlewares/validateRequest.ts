@@ -2,9 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 import { ZodSchema, ZodError } from 'zod';
 
 const validateRequest = (schema: ZodSchema) => {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      schema.parse({ body: req.body });
+      const parsedData = await schema.parseAsync({ body: req.body });
+      req.body = (parsedData as any).body;
       next();
     } catch (error) {
       if (error instanceof ZodError) {
