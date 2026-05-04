@@ -36,6 +36,11 @@ const createAdmin = catchAsync(async (req: Request, res: Response) => {
 
 const getAllUsers = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, ['searchTerm', 'role', 'status']);
+  
+  // Format Enums to upper case to ensure valid Prisma exact matches
+  if (filters.role) filters.role = (filters.role as string).toUpperCase();
+  if (filters.status) filters.status = (filters.status as string).toUpperCase();
+
   const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
   const paginationOptions = calculatePagination(options);
 

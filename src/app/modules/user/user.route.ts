@@ -3,10 +3,11 @@ import { userController } from './user.controller';
 import { multerUpload } from '../../../helpers/multer';
 import validateRequest from '../../../middlewares/validateRequest';
 import { userValidation } from './user.validation';
+import { auth, restrictTo } from '../../../middlewares/auth';
 
 const router = express.Router();
 
-router.get('/', userController.getAllUsers);
+router.get('/', auth, restrictTo('ADMIN'), userController.getAllUsers);
 
 router.post(
   '/create-patient',
@@ -17,6 +18,7 @@ router.post(
 
 router.post(
   '/create-doctor',
+  auth, restrictTo('ADMIN'),
   multerUpload.single('profilePhoto'),
   validateRequest(userValidation.createDoctorValidationSchema),
   userController.createDoctor
@@ -24,6 +26,7 @@ router.post(
 
 router.post(
   '/create-admin',
+  auth, restrictTo('ADMIN'),
   multerUpload.single('profilePhoto'),
   validateRequest(userValidation.createAdminValidationSchema),
   userController.createAdmin
