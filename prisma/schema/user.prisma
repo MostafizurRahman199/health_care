@@ -47,6 +47,7 @@ model Doctor{
   specialization String?
 
   user User @relation(fields: [email], references: [email])
+  doctorSchedules DoctorSchedule[]
   
   isDeleted Boolean @default(false)
   createdAt DateTime @default(now())
