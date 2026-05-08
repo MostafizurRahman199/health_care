@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import catchAsync from '../../../shared/catchAsync';
 import { pick } from '../../../shared/pick';
 import { scheduleService } from './schedule.service';
+import { scheduleFilterableFields } from './schedule.constants';
 
 const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
   const result = await scheduleService.insertIntoDB(req.body);
@@ -13,8 +14,9 @@ const insertIntoDB = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+
 const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
-  const filters = pick(req.query, ['startDate', 'endDate']);
+  const filters = pick(req.query, scheduleFilterableFields);
   const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
 
   const result = await scheduleService.getAllFromDB(filters, options);

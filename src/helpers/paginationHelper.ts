@@ -8,8 +8,8 @@ export const calculatePagination = (options: {
   const limit = Number(options.limit || 10);
   const skip = (page - 1) * limit;
 
-  const sortBy = options.sortBy || 'createdAt';
-  const sortOrder = options.sortOrder || 'desc';
+  const sortBy = (options.sortBy || 'createdAt').trim();
+  const sortOrder = (options.sortOrder || 'desc').trim();
 
   return {
     page,
