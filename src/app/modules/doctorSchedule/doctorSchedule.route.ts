@@ -11,4 +11,32 @@ router.post(
   doctorScheduleController.insertIntoDB
 );
 
+router.get(
+  '/my-schedules',
+  auth,
+  restrictTo('DOCTOR'),
+  doctorScheduleController.getMySchedules
+);
+
+router.get(
+  '/available-schedules',
+  auth,
+  restrictTo('DOCTOR'),
+  doctorScheduleController.getAvailableSchedules
+);
+
+router.patch(
+  '/:scheduleId',
+  auth,
+  restrictTo('DOCTOR'),
+  doctorScheduleController.updateFromDB
+);
+
+router.delete(
+  '/',
+  auth,
+  restrictTo('DOCTOR'),
+  doctorScheduleController.deleteFromDB
+);
+
 export const doctorScheduleRoutes = router;
