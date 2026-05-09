@@ -15,3 +15,21 @@ async function main() {
 }
 
 main();
+
+// Graceful shutdown on unhandled promise rejections
+process.on('unhandledRejection', (reason) => {
+  console.error('🔥 Unhandled Rejection. Shutting down...', reason);
+  if (server) {
+    server.close(() => {
+      process.exit(1);
+    });
+  } else {
+    process.exit(1);
+  }
+});
+
+// Graceful shutdown on uncaught exceptions
+process.on('uncaughtException', (error) => {
+  console.error('🔥 Uncaught Exception. Shutting down...', error);
+  process.exit(1);
+});
