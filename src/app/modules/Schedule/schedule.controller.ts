@@ -29,7 +29,19 @@ const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const deleteFromDB = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await scheduleService.deleteFromDB(id as string);
+
+  res.status(200).json({
+    success: true,
+    message: 'Schedule deleted successfully',
+    data: result,
+  });
+});
+
 export const scheduleController = {
   insertIntoDB,
   getAllFromDB,
+  deleteFromDB,
 };

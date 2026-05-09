@@ -13,4 +13,6 @@ router.post(
 
 router.get('/', scheduleController.getAllFromDB);
 
+router.delete('/:id', scheduleController.deleteFromDB);
+
 export const scheduleRoutes = router;
