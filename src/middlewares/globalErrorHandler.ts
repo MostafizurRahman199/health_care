@@ -90,7 +90,26 @@ const globalErrorHandler = (
     errorDetails = err.message;
   }
 
-  // ─── 5. Prisma Not Found Error (findUniqueOrThrow, findFirstOrThrow) ───
+  // ─── 5. Prisma Initialization Error (DB connection failed, config issues) ───
+  else if (err instanceof Prisma.PrismaClientInitializationError) {
+    statusCode = 503;
+    message = 'Unable to connect to the service. Please try again later.';
+    errorDetails = { errorCode: err.errorCode };
+  }
+
+  // ─── 6. Prisma Rust Panic Error (engine crash — critical) ───
+  else if (err instanceof Prisma.PrismaClientRustPanicError) {
+    statusCode = 500;
+    message = 'A critical server error occurred. Our team has been notified.';
+  }
+
+  // ─── 7. Prisma Unknown Request Error (unexpected query engine error) ───
+  else if (err instanceof Prisma.PrismaClientUnknownRequestError) {
+    statusCode = 500;
+    message = 'An unexpected error occurred while processing your request. Please try again.';
+  }
+
+  // ─── 8. Prisma Not Found Error (findUniqueOrThrow, findFirstOrThrow) ───
   else if (err.name === 'NotFoundError' || err.constructor?.name === 'NotFoundError') {
     statusCode = 404;
     message = err.message || 'Requested resource not found.';

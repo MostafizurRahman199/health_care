@@ -2,6 +2,7 @@ import prisma from '../../../shared/prisma';
 import { bcryptHelper } from '../../../helpers/bcrypt';
 import { jwtHelper } from '../../../helpers/jwt';
 import config from '../../../config';
+import ApiError from '../../../errors/ApiError';
 
 const loginWithCredentials = async (payload: any) => {
   const { email, password } = payload;
@@ -12,12 +13,12 @@ const loginWithCredentials = async (payload: any) => {
   });
 
   if (!user) {
-    throw new Error('User does not exist');
+    throw ApiError.notFound('User does not exist');
   }
 
   // Check if user is active
   if (user.status !== 'ACTIVE') {
-    throw new Error('User is not active');
+    throw ApiError.forbidden('User is not active');
   }
 
   // Check if password matches
@@ -27,7 +28,7 @@ const loginWithCredentials = async (payload: any) => {
   );
 
   if (!isPasswordMatched) {
-    throw new Error('Incorrect password');
+    throw ApiError.unauthorized('Incorrect password');
   }
 
   // Generate tokens
