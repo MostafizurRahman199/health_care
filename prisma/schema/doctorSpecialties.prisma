@@ -1,0 +1,14 @@
+model DoctorSpecialties {
+  specialtiesId String
+  doctorId      String
+
+  specialties Specialties @relation(fields: [specialtiesId], references: [id])
+  
+  doctor      Doctor      @relation(fields: [doctorId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([specialtiesId, doctorId])
+  @@map("doctorSpecialties")
+}
