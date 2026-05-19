@@ -1,0 +1,167 @@
+{
+  "info": {
+    "name": "Health-care API",
+    "_postman_id": "health-care-api-collection",
+    "description": "Auto-generated Postman collection for the Health-care project",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000/api/v1" },
+    { "key": "accessToken", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"Password1\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth","login"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Get All Users (ADMIN)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/user/", "host": ["{{baseUrl}}"], "path": ["user",""] }
+          }
+        },
+        {
+          "name": "Create Patient",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "email", "value": "patient@example.com", "type": "text" },
+                { "key": "password", "value": "Password1", "type": "text" },
+                { "key": "name", "value": "John Doe", "type": "text" },
+                { "key": "contactNumber", "value": "0123456789", "type": "text" },
+                { "key": "address", "value": "123 Street", "type": "text" },
+                { "key": "profilePhoto", "type": "file" }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/user/create-patient", "host": ["{{baseUrl}}"], "path": ["user","create-patient"] }
+          }
+        },
+        {
+          "name": "Create Doctor (ADMIN)",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Authorization", "value": "Bearer {{accessToken}}" } ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "email", "value": "doctor@example.com", "type": "text" },
+                { "key": "password", "value": "Password1", "type": "text" },
+                { "key": "name", "value": "Dr. Who", "type": "text" },
+                { "key": "contactNumber", "value": "0123456789", "type": "text" },
+                { "key": "address", "value": "Clinic Address", "type": "text" },
+                { "key": "registrationNumber", "value": "REG12345", "type": "text" },
+                { "key": "experienceYears", "value": "5", "type": "text" },
+                { "key": "gender", "value": "MALE", "type": "text" },
+                { "key": "appintmentFee", "value": "50", "type": "text" },
+                { "key": "qualification", "value": "MD", "type": "text" },
+                { "key": "cureentWorkingPlcae", "value": "City Hospital", "type": "text" },
+                { "key": "designation", "value": "Senior Surgeon", "type": "text" },
+                { "key": "specialization", "value": "Cardiology", "type": "text" },
+                { "key": "profilePhoto", "type": "file" }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/user/create-doctor", "host": ["{{baseUrl}}"], "path": ["user","create-doctor"] }
+          }
+        },
+        {
+          "name": "Create Admin (ADMIN)",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Authorization", "value": "Bearer {{accessToken}}" } ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "email", "value": "admin@example.com", "type": "text" },
+                { "key": "password", "value": "Password1", "type": "text" },
+                { "key": "name", "value": "Admin User", "type": "text" },
+                { "key": "contactNumber", "value": "0123456789", "type": "text" },
+                { "key": "profilePhoto", "type": "file" }
+              ]
+            },
+            "url": { "raw": "{{baseUrl}}/user/create-admin", "host": ["{{baseUrl}}"], "path": ["user","create-admin"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Schedule",
+      "item": [
+        {
+          "name": "Create Schedule",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{\n  \"startDate\": \"2026-05-20\",\n  \"endDate\": \"2026-05-20\",\n  \"startTime\": \"09:00\",\n  \"endTime\": \"17:00\",\n  \"sessionTime\": 30\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{baseUrl}}/schedule/", "host": ["{{baseUrl}}"], "path": ["schedule",""] }
+          }
+        },
+        { "name": "Get All Schedules", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/schedule/", "host": ["{{baseUrl}}"], "path": ["schedule",""] } } },
+        { "name": "Delete Schedule", "request": { "method": "DELETE", "header": [ { "key": "Content-Type", "value": "application/json" } ], "body": { "mode": "raw", "raw": "", "options": { "raw": { "language": "json" } } }, "url": { "raw": "{{baseUrl}}/schedule/:id", "host": ["{{baseUrl}}"], "path": ["schedule",":id"] } } }
+      ]
+    },
+    {
+      "name": "Doctor Schedule",
+      "item": [
+        {
+          "name": "Insert Doctor Schedules (DOCTOR)",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Authorization", "value": "Bearer {{accessToken}}" }, { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{\n  \"scheduleIds\": [\"SCHEDULE_ID_1\", \"SCHEDULE_ID_2\"]\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{baseUrl}}/doctor-schedule/", "host": ["{{baseUrl}}"], "path": ["doctor-schedule",""] }
+          }
+        },
+        { "name": "Get My Schedules (DOCTOR)", "request": { "method": "GET", "header": [ { "key": "Authorization", "value": "Bearer {{accessToken}}" } ], "url": { "raw": "{{baseUrl}}/doctor-schedule/my-schedules", "host": ["{{baseUrl}}"], "path": ["doctor-schedule","my-schedules"] } } },
+        { "name": "Get Available Schedules (DOCTOR)", "request": { "method": "GET", "header": [ { "key": "Authorization", "value": "Bearer {{accessToken}}" } ], "url": { "raw": "{{baseUrl}}/doctor-schedule/available-schedules", "host": ["{{baseUrl}}"], "path": ["doctor-schedule","available-schedules"] } } },
+        { "name": "Update Doctor Schedule (DOCTOR)", "request": { "method": "PATCH", "header": [ { "key": "Authorization", "value": "Bearer {{accessToken}}" }, { "key": "Content-Type", "value": "application/json" } ], "body": { "mode": "raw", "raw": "{\n  \"isBooked\": false\n}", "options": { "raw": { "language": "json" } } }, "url": { "raw": "{{baseUrl}}/doctor-schedule/:scheduleId", "host": ["{{baseUrl}}"], "path": ["doctor-schedule",":scheduleId"] } } },
+        { "name": "Delete Doctor Schedules (DOCTOR)", "request": { "method": "DELETE", "header": [ { "key": "Authorization", "value": "Bearer {{accessToken}}" }, { "key": "Content-Type", "value": "application/json" } ], "body": { "mode": "raw", "raw": "{\n  \"scheduleIds\": [\"SCHEDULE_ID_1\"]\n}", "options": { "raw": { "language": "json" } } }, "url": { "raw": "{{baseUrl}}/doctor-schedule/", "host": ["{{baseUrl}}"], "path": ["doctor-schedule",""] } } }
+      ]
+    },
+    {
+      "name": "Specialties",
+      "item": [
+        {
+          "name": "Create Specialty (ADMIN)",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Authorization", "value": "Bearer {{accessToken}}" } ],
+            "body": { "mode": "formdata", "formdata": [ { "key": "title", "value": "Cardiology", "type": "text" }, { "key": "icon", "type": "file" } ] },
+            "url": { "raw": "{{baseUrl}}/specialties/", "host": ["{{baseUrl}}"], "path": ["specialties",""] }
+          }
+        },
+        { "name": "Get All Specialties", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/specialties/", "host": ["{{baseUrl}}"], "path": ["specialties",""] } } },
+        { "name": "Get Specialty By ID", "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/specialties/:id", "host": ["{{baseUrl}}"], "path": ["specialties",":id"] } } },
+        { "name": "Update Specialty (ADMIN)", "request": { "method": "PATCH", "header": [ { "key": "Authorization", "value": "Bearer {{accessToken}}" } ], "body": { "mode": "formdata", "formdata": [ { "key": "title", "value": "Updated Title", "type": "text" }, { "key": "icon", "type": "file" } ] }, "url": { "raw": "{{baseUrl}}/specialties/:id", "host": ["{{baseUrl}}"], "path": ["specialties",":id"] } } },
+        { "name": "Delete Specialty (ADMIN)", "request": { "method": "DELETE", "header": [ { "key": "Authorization", "value": "Bearer {{accessToken}}" } ], "url": { "raw": "{{baseUrl}}/specialties/:id", "host": ["{{baseUrl}}"], "path": ["specialties",":id"] } } }
+      ]
+    }
+  ]
+}
