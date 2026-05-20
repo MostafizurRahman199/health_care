@@ -5,7 +5,6 @@ export const doctorFilterableFields = [
   'gender',
   'qualification',
   'designation',
-  'specialization',
   'searchTerm'
 ];
 
@@ -15,5 +14,4 @@ export const doctorSearchableFields = [
   'contactNumber',
   'qualification',
   'designation',
-  'specialization',
 ];

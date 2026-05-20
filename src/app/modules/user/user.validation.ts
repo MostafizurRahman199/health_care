@@ -34,7 +34,6 @@ const createDoctorValidationSchema = z.object({
     qualification: z.string({ message: 'Qualification is required' }),
     cureentWorkingPlcae: z.string({ message: 'Current working place is required' }),
     designation: z.string({ message: 'Designation is required' }),
-    specialization: z.string().optional(),
   }),
 });
 

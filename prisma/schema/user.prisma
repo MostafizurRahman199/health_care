@@ -44,7 +44,6 @@ model Doctor{
   qualification String
   cureentWorkingPlcae String
   designation String
-  specialization String?
 
   user User @relation(fields: [email], references: [email])
   doctorSchedules DoctorSchedule[]
