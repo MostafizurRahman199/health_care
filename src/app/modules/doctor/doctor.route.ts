@@ -18,4 +18,12 @@ router.patch(
 );
 router.delete('/:id', auth, restrictTo('ADMIN'), doctorController.deleteFromDB);
 
+router.post(
+  '/suggest-doctors',
+  auth,
+  restrictTo('PATIENT', 'ADMIN'),
+  validateRequest(doctorValidation.suggestDoctors),
+  doctorController.suggestDoctors
+);
+
 export const doctorRoutes = router;

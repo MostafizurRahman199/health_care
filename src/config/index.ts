@@ -15,4 +15,5 @@ export default {
     refresh_cookie_max_age: parseInt(process.env.JWT_REFRESH_COOKIE_MAX_AGE || '31536000000', 10),
     access_cookie_max_age: parseInt(process.env.JWT_ACCESS_COOKIE_MAX_AGE || '3600000', 10),
   },
+  open_router_key: process.env.open_router_key,
 };

@@ -21,6 +21,15 @@ const updateDoctor = z.object({
   }).strict(),
 });
 
+const suggestDoctors = z.object({
+  body: z.object({
+    symptoms: z.string({
+      message: 'Symptoms are required',
+    }),
+  }),
+});
+
 export const doctorValidation = {
   updateDoctor,
+  suggestDoctors,
 };

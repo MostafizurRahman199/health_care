@@ -1,0 +1,12 @@
+src/app/modules/doctor/doctor.validation.ts(27,7): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(params?: string | { error?: string | $ZodErrorMap<$ZodIssueInvalidType<unknown>> | undefined; message?: string | undefined; } | undefined): ZodString', gave the following error.
+    Object literal may only specify known properties, and 'required_error' does not exist in type '{ error?: string | $ZodErrorMap<$ZodIssueInvalidType<unknown>> | undefined; message?: string | undefined; }'.
+  Overload 2 of 2, '(params?: string | { error?: string | $ZodErrorMap<$ZodIssueInvalidType<unknown>> | undefined; message?: string | undefined; } | undefined): $ZodType<...>', gave the following error.
+    Object literal may only specify known properties, and 'required_error' does not exist in type '{ error?: string | $ZodErrorMap<$ZodIssueInvalidType<unknown>> | undefined; message?: string | undefined; }'.
+src/helpers/openRouterHelper.ts(21,7): error TS2769: No overload matches this call.
+  Overload 1 of 3, '(request: SendChatCompletionRequestRequest & { chatRequest: { stream?: false | undefined; }; }, options?: RequestOptions | undefined): Promise<...>', gave the following error.
+    Object literal may only specify known properties, and 'model' does not exist in type 'SendChatCompletionRequestRequest & { chatRequest: { stream?: false | undefined; }; }'.
+  Overload 2 of 3, '(request: SendChatCompletionRequestRequest & { chatRequest: { stream: true; }; }, options?: RequestOptions | undefined): Promise<...>', gave the following error.
+    Object literal may only specify known properties, and 'model' does not exist in type 'SendChatCompletionRequestRequest & { chatRequest: { stream: true; }; }'.
+  Overload 3 of 3, '(request: SendChatCompletionRequestRequest, options?: RequestOptions | undefined): Promise<SendChatCompletionRequestResponse>', gave the following error.
+    Object literal may only specify known properties, and 'model' does not exist in type 'SendChatCompletionRequestRequest'.

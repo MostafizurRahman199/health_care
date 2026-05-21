@@ -41,8 +41,19 @@ const deleteFromDB = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const suggestDoctors = catchAsync(async (req: Request, res: Response) => {
+  const result = await doctorService.suggestDoctors(req.body.symptoms);
+
+  res.status(200).json({
+    success: true,
+    message: 'Doctor suggestions fetched successfully',
+    data: result,
+  });
+});
+
 export const doctorController = {
   getAllFromDB,
   updateIntoDB,
   deleteFromDB,
+  suggestDoctors,
 };
