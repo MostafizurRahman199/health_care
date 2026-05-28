@@ -3,6 +3,10 @@ import ApiError from '../../../errors/ApiError';
 import crypto from 'crypto';
 import { calculatePagination } from '../../../helpers/paginationHelper';
 import { Prisma } from '@prisma/client';
+import { paymentService } from '../payment/payment.service';
+
+
+
 
 const createAppointment = async (user: any, payload: any) => {
   const patientData = await prisma.patient.findUniqueOrThrow({
@@ -68,7 +72,12 @@ const createAppointment = async (user: any, payload: any) => {
     return appointmentData;
   });
 
-  return result;
+  const paymentData = await paymentService.initPayment(result.id);
+
+  return {
+    ...result,
+    paymentSession: paymentData,
+  };
 };
 
 const getAllFromDB = async (filters: any, options: any) => {
