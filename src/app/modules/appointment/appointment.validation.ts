@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { AppointmentStatus } from '@prisma/client';
 
 const createAppointment = z.object({
   body: z.object({
@@ -11,6 +12,15 @@ const createAppointment = z.object({
   }),
 });
 
+const updateAppointmentStatus = z.object({
+  body: z.object({
+    status: z.enum(['SCHEDULED', 'INPROGRESS', 'COMPLETED', 'CANCELED'], {
+      message: 'Invalid status',
+    }),
+  }),
+});
+
 export const appointmentValidation = {
   createAppointment,
+  updateAppointmentStatus,
 };

@@ -28,4 +28,12 @@ router.get(
   appointmentController.getMyAppointment
 );
 
+router.patch(
+  '/status/:id',
+  auth,
+  restrictTo('ADMIN', 'DOCTOR'),
+  validateRequest(appointmentValidation.updateAppointmentStatus),
+  appointmentController.changeAppointmentStatus
+);
+
 export const appointmentRoutes = router;

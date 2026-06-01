@@ -8,6 +8,10 @@ import { doctorRoutes } from '../modules/doctor/doctor.route';
 import { patientRoutes } from '../modules/patient/patient.route';
 import { appointmentRoutes } from '../modules/appointment/appointment.route';
 import { paymentRoutes } from '../modules/payment/payment.route';
+import { prescriptionRoutes } from '../modules/prescription/prescription.route';
+import { reviewRoutes } from '../modules/review/review.route';
+import { patientHealthDataRoutes } from '../modules/patientHealthData/patientHealthData.route';
+import { medicalReportRoutes } from '../modules/medicalReport/medicalReport.route';
 
 const router = express.Router();
 
@@ -47,6 +51,22 @@ const moduleRoutes = [
   {
     path: '/payment',
     route: paymentRoutes,
+  },
+  {
+    path: '/prescription',
+    route: prescriptionRoutes,
+  },
+  {
+    path: '/review',
+    route: reviewRoutes,
+  },
+  {
+    path: '/patient-health-data',
+    route: patientHealthDataRoutes,
+  },
+  {
+    path: '/medical-report',
+    route: medicalReportRoutes,
   }
 ];
 

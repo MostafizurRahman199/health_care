@@ -70,6 +70,10 @@ const getByIdFromDB = async (id: string, user: any) => {
     where: {
       id,
     },
+    include: {
+      patientHealthData: true,
+      medicalReports: true,
+    },
   });
 
   if (result && user.role === 'PATIENT' && result.email !== user.email) {

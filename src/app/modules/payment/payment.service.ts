@@ -91,7 +91,7 @@ const initPayment = async (appointmentId: string) => {
 
 const validateWebhook = async (payload: any, signature: string) => {
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-  
+
   if (!webhookSecret) {
     throw new Error('Stripe webhook secret is not configured');
   }
@@ -106,12 +106,12 @@ const validateWebhook = async (payload: any, signature: string) => {
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as any;
-    
+
     // Safety check: ensure payment is actually paid
     if (session.payment_status !== 'paid') {
       return { received: true }; // Ignore uncaptured payments (like async bank transfers) until paid
     }
-    
+
     // We attached appointmentId and paymentId in metadata during initPayment
     const paymentId = session.metadata?.paymentId;
     const appointmentId = session.metadata?.appointmentId;

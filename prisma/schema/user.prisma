@@ -50,6 +50,8 @@ model Doctor{
   doctorSpecialties DoctorSpecialties[]
   appointments Appointment[]
   prescriptions Prescription[]
+  reviews Review[]
+  averageRating Float @default(0.0)
   
   isDeleted Boolean @default(false)
   createdAt DateTime @default(now())
@@ -70,6 +72,9 @@ model Patient{
 
   appointments Appointment[]
   prescriptions Prescription[]
+  reviews Review[]
+  patientHealthData PatientHealthData?
+  medicalReports MedicalReport[]
 
   isDeleted Boolean @default(false)
   createdAt DateTime @default(now())

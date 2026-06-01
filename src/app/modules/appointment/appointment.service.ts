@@ -2,7 +2,7 @@ import prisma from '../../../shared/prisma';
 import ApiError from '../../../errors/ApiError';
 import crypto from 'crypto';
 import { calculatePagination } from '../../../helpers/paginationHelper';
-import { Prisma } from '@prisma/client';
+import { Prisma, AppointmentStatus } from '@prisma/client';
 import { paymentService } from '../payment/payment.service';
 
 
@@ -166,12 +166,25 @@ const getMyAppointment = async (user: any, filters: any, options: any) => {
     orderBy: {
       [sortBy]: sortOrder,
     },
-    include: {
-      doctor: true,
-      patient: true,
-      schedule: true,
-      payment: true,
-    },
+    include:
+      user.role === 'PATIENT'
+        ? {
+            doctor: true,
+            schedule: true,
+            payment: true,
+            review: true,
+          }
+        : {
+            patient: {
+              include: {
+                patientHealthData: true,
+                medicalReports: true,
+              },
+            },
+            schedule: true,
+            payment: true,
+            review: true,
+          },
   });
 
   const total = await prisma.appointment.count({
@@ -188,8 +201,35 @@ const getMyAppointment = async (user: any, filters: any, options: any) => {
   };
 };
 
+const changeAppointmentStatus = async (
+  id: string,
+  status: AppointmentStatus,
+  user: any
+) => {
+  const appointmentData = await prisma.appointment.findUniqueOrThrow({
+    where: { id },
+  });
+
+  if (user.role === 'DOCTOR') {
+    const doctorData = await prisma.doctor.findUniqueOrThrow({
+      where: { email: user.email },
+    });
+    if (appointmentData.doctorId !== doctorData.id) {
+      throw new ApiError(403, 'This is not your appointment');
+    }
+  }
+
+  const result = await prisma.appointment.update({
+    where: { id },
+    data: { status },
+  });
+
+  return result;
+};
+
 export const appointmentService = {
   createAppointment,
   getAllFromDB,
   getMyAppointment,
+  changeAppointmentStatus,
 };
