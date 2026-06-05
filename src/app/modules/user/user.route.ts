@@ -32,4 +32,6 @@ router.post(
   userController.createAdmin
 );
 
+router.get('/profile', auth, userController.getMyProfile);
+
 export const userRouter = router;

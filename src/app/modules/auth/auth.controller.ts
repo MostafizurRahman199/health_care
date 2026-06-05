@@ -33,6 +33,41 @@ const login = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getMyProfile = catchAsync(async (req: Request, res: Response) => {
+  const user = req.user;
+  const result = await AuthService.getMyProfile(user as any);
+
+  res.status(200).json({
+    success: true,
+    message: 'Profile retrieved successfully',
+    data: result,
+  });
+});
+
+const forgotPassword = catchAsync(async (req: Request, res: Response) => {
+  await AuthService.forgotPassword(req.body);
+
+  res.status(200).json({
+    success: true,
+    message: 'Password reset link sent to your email',
+    data: null,
+  });
+});
+
+const resetPassword = catchAsync(async (req: Request, res: Response) => {
+  const token = req.headers.authorization || '';
+  await AuthService.resetPassword(token, req.body);
+
+  res.status(200).json({
+    success: true,
+    message: 'Password reset successfully',
+    data: null,
+  });
+});
+
 export const AuthController = {
   login,
+  getMyProfile,
+  forgotPassword,
+  resetPassword,
 };

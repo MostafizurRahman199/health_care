@@ -3,6 +3,7 @@ import { bcryptHelper } from '../../../helpers/bcrypt';
 import { cloudinaryHelper } from '../../../helpers/cloudinary';
 import { Prisma } from '@prisma/client';
 import { buildWhereConditions } from '../../../shared/buildWhereConditions';
+import ApiError from '../../../errors/ApiError';
 
 const createPatientIntoDB = async (
   file: Express.Multer.File | undefined,
@@ -207,9 +208,47 @@ const getAllUsersFromDB = async (params: any, options: any) => {
   };
 };
 
+const getMyProfile = async (user: any) => {
+  const userInfo = await prisma.user.findUnique({
+    where: {
+      email: user.email,
+    },
+    select: {
+      id: true,
+      email: true,
+      role: true,
+      needPasswordChange: true,
+      status: true,
+    },
+  });
+
+  if (!userInfo) {
+    throw ApiError.notFound('User does not exist');
+  }
+
+  let profileInfo;
+
+  if (userInfo.role === 'ADMIN') {
+    profileInfo = await prisma.admin.findUnique({
+      where: { email: userInfo.email },
+    });
+  } else if (userInfo.role === 'DOCTOR') {
+    profileInfo = await prisma.doctor.findUnique({
+      where: { email: userInfo.email },
+    });
+  } else if (userInfo.role === 'PATIENT') {
+    profileInfo = await prisma.patient.findUnique({
+      where: { email: userInfo.email },
+    });
+  }
+
+  return { ...userInfo, ...profileInfo };
+};
+
 export const userService = {
   createPatientIntoDB,
   createDoctorIntoDB,
   createAdminIntoDB,
   getAllUsersFromDB,
+  getMyProfile,
 };

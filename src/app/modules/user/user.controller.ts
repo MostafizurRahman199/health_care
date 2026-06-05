@@ -54,9 +54,21 @@ const getAllUsers = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getMyProfile = catchAsync(async (req: Request, res: Response) => {
+  const user = req.user;
+  const result = await userService.getMyProfile(user);
+
+  res.status(200).json({
+    success: true,
+    message: 'Profile retrieved successfully',
+    data: result,
+  });
+});
+
 export const userController = {
   createPatient,
   createDoctor,
   createAdmin,
   getAllUsers,
+  getMyProfile,
 };

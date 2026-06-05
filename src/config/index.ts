@@ -14,6 +14,13 @@ export default {
     refresh_expires_in: process.env.JWT_REFRESH_EXPIRES_IN || '365d',
     refresh_cookie_max_age: parseInt(process.env.JWT_REFRESH_COOKIE_MAX_AGE || '31536000000', 10),
     access_cookie_max_age: parseInt(process.env.JWT_ACCESS_COOKIE_MAX_AGE || '3600000', 10),
+    reset_pass_secret: process.env.JWT_RESET_PASS_SECRET || 'resetpasssecret123',
+    reset_pass_expires_in: process.env.JWT_RESET_PASS_EXPIRES_IN || '10m',
   },
   open_router_key: process.env.open_router_key,
+  emailSender: {
+    email: process.env.EMAIL_SENDER,
+    app_pass: process.env.EMAIL_APP_PASSWORD,
+  },
+  frontend_url: process.env.FRONTEND_URL || 'http://localhost:3000',
 };

@@ -49,6 +49,10 @@ const getAllFromDB = async (filters: any, options: any) => {
     orderBy: {
       [sortBy]: sortOrder,
     },
+    include: {
+      patientHealthData: true,
+      medicalReports: true,
+    },
   });
 
   const total = await prisma.patient.count({

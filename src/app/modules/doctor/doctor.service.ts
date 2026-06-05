@@ -56,6 +56,15 @@ const getAllFromDB = async (filters: any, options: any) => {
           specialties: true,
         },
       },
+      reviews: {
+        orderBy: {
+          createdAt: 'desc',
+        },
+        include: {
+          patient: true,
+          appointment: true,
+        },
+      },
     },
   });
 
