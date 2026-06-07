@@ -6,8 +6,6 @@ import { Prisma, AppointmentStatus } from '@prisma/client';
 import { paymentService } from '../payment/payment.service';
 
 
-
-
 const createAppointment = async (user: any, payload: any) => {
   const patientData = await prisma.patient.findUniqueOrThrow({
     where: { email: user.email },

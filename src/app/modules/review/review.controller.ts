@@ -41,6 +41,19 @@ const getDoctorReviews = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getAllReviews = catchAsync(async (req: Request, res: Response) => {
+  const filters = pick(req.query, []);
+  const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
+  const result = await reviewService.getAllReviews(filters, options);
+
+  res.status(200).json({
+    success: true,
+    message: 'All reviews retrieved successfully',
+    meta: result.meta,
+    data: result.data,
+  });
+});
+
 const updateReview = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id as string;
   const user = req.user;
@@ -67,6 +80,7 @@ const deleteReview = catchAsync(async (req: Request, res: Response) => {
 
 export const reviewController = {
   createReview,
+  getAllReviews,
   getMyReviews,
   getDoctorReviews,
   updateReview,

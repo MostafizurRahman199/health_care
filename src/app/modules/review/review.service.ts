@@ -159,6 +159,34 @@ const getDoctorReviews = async (doctorId: string, options: any) => {
   };
 };
 
+const getAllReviews = async (filters: any, options: any) => {
+  const { limit, page, skip, sortBy, sortOrder } = calculatePagination(options);
+
+  const result = await prisma.review.findMany({
+    skip,
+    take: limit,
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
+    include: {
+      doctor: true,
+      patient: true,
+      appointment: true,
+    },
+  });
+
+  const total = await prisma.review.count();
+
+  return {
+    meta: {
+      total,
+      page,
+      limit,
+    },
+    data: result,
+  };
+};
+
 const updateReview = async (id: string, user: any, payload: Partial<any>) => {
   const reviewData = await prisma.review.findUniqueOrThrow({
     where: { id },
@@ -214,6 +242,7 @@ const deleteReview = async (id: string, user: any) => {
 
 export const reviewService = {
   createReview,
+  getAllReviews,
   getMyReviews,
   getDoctorReviews,
   updateReview,
